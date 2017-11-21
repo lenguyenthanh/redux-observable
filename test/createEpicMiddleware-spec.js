@@ -2,7 +2,7 @@
 import 'babel-polyfill';
 import { expect } from 'chai';
 import sinon from 'sinon';
-import { createStore, applyMiddleware } from 'redux';
+import { createStore, applyMiddleware, __DO_NOT_USE__ActionTypes as ReduxActionTypes } from 'redux';
 import { createEpicMiddleware, combineEpics, ActionsObservable, EPIC_END } from '../';
 // We need to import the operators separately and not add them to the Observable
 // prototype, otherwise we might accidentally cover-up that the source we're
@@ -62,7 +62,7 @@ describe('createEpicMiddleware', () => {
     store.dispatch({ type: 'FIRE_2' });
 
     expect(store.getState()).to.deep.equal([
-      { type: '@@redux/INIT' },
+      { type: ReduxActionTypes.INIT },
       { type: 'FIRE_1' },
       { type: 'ACTION_1' },
       { type: 'FIRE_2' },
@@ -120,9 +120,9 @@ describe('createEpicMiddleware', () => {
     store.dispatch({ type: 'FIRE_3' });
     store.dispatch({ type: 'FIRE_4' });
     store.dispatch({ type: 'FIRE_GENERIC' });
-
+    console.log(store.getState());
     expect(store.getState()).to.deep.equal([
-      { type: '@@redux/INIT' },
+      { type: ReduxActionTypes.INIT },
       { type: 'EPIC_1' },
       { type: 'FIRE_1' },
       { type: 'ACTION_1' },
@@ -157,7 +157,7 @@ describe('createEpicMiddleware', () => {
     const store = createStore(reducer, applyMiddleware(middleware));
 
     expect(store.getState()).to.deep.equal([
-      { type: '@@redux/INIT' },
+      { type: ReduxActionTypes.INIT },
       { type: 3 }
     ]);
   });
